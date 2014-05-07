@@ -1,0 +1,26 @@
+<html>
+	<head>
+		<title>Login required</title>
+		<link rel="stylesheet" type="text/css" href="/login/css/style.css" />
+		<script type="text/javascript">
+			function init() {
+				if (self.location.hash == "#do") {
+					document.getElementById("error").className += "show";
+				}
+				document.getElementById("password").focus();
+			}
+		</script>
+	</head>
+	<body onload="init()">
+		<div id="content">
+			<h1>Ah ah ah, you didn't say the magic word</h1>
+			<form method="POST" action="#do">
+				<label for="username">Username</label><input type="text" id="username" name="httpd_username" value="friends" />
+				<label for="password">Password</label><input type="password" id="password" name="httpd_password" value="" />
+				<input type="submit" name="login" value="Login" />
+			</form>
+
+			<p id="error">Please! God damn it! I hate this hacker crap!</p>
+		</div>
+	</body>
+</html>
