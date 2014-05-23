@@ -1,20 +1,26 @@
 <html>
 	<head>
 		<title>Login required</title>
+		<link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:300' rel='stylesheet' type='text/css'>
 		<link rel="stylesheet" type="text/css" href="/login/css/style.css" />
 		<script type="text/javascript">
 			function init() {
-				if (self.location.hash == "#do") {
+				if (localStorage.getItem("tryLogin")) {
 					document.getElementById("error").className += "show";
+					localStorage.removeItem("tryLogin");
 				}
 				document.getElementById("password").focus();
+			}
+			
+			function tryLogin() {
+				localStorage.setItem("tryLogin", true);	
 			}
 		</script>
 	</head>
 	<body onload="init()">
 		<div id="content">
 			<h1>Ah ah ah, you didn't say the magic word</h1>
-			<form method="POST" action="#do">
+			<form method="POST" action="" onsubmit="tryLogin()">
 				<label for="username">Username</label><input type="text" id="username" name="httpd_username" value="friends" />
 				<label for="password">Password</label><input type="password" id="password" name="httpd_password" value="" />
 				<input type="submit" name="login" value="Login" />
