@@ -8,6 +8,7 @@ It uses some javascript to detect if a login has failed to display a friendly me
 
         sudo a2enmod session
         sudo a2enmod session_cookie
+        sudo a2enmod request
         sudo a2enmod auth_form
         
 2. Create a folder ```/var/www/login``` and copy index.html and css to that folder
