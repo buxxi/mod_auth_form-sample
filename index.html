@@ -3,26 +3,40 @@
 		<title>Login required</title>
 		<link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:300' rel='stylesheet' type='text/css'>
 		<link rel="stylesheet" type="text/css" href="/login/css/style.css" />
+		<meta charset="utf-8"/>
 		<script type="text/javascript">
-			function init() {
-				if (localStorage.getItem("tryLogin")) {
-					document.getElementById("error").className += "show";
-					localStorage.removeItem("tryLogin");
-				}
-				document.getElementById("password").focus();
-			}
-			
-			function tryLogin() {
-				localStorage.setItem("tryLogin", true);	
+			function tryLogin(form) {
+				let error = document.getElementById("error");
+				error.classList.remove('show');
+
+				//Make the POST XHR instead
+				fetch("", {
+					method: "POST",
+					body: new URLSearchParams(new FormData(form))
+				}).then(response => {
+					if (response.status == 401) {
+						throw new Error(`Got status ${response.status}`);	
+					}
+					//Expect success.json to be returned on correct
+					return response.json();
+				}).then(data => {
+					if (data.login) {
+						document.location.reload();
+					}
+				}).catch(e => {
+					error.classList.add('show');
+				});
+
+				return false;
 			}
 		</script>
 	</head>
-	<body onload="init()">
+	<body>
 		<div id="content">
 			<h1>Ah ah ah, you didn't say the magic word</h1>
-			<form method="POST" action="" onsubmit="tryLogin()">
+			<form method="POST" action="" onsubmit="return tryLogin(this)">
 				<label for="username">Username</label><input type="text" id="username" name="httpd_username" value="friends" />
-				<label for="password">Password</label><input type="password" id="password" name="httpd_password" value="" />
+				<label for="password">Password</label><input type="password" id="password" name="httpd_password" value="" autofocus="true" />
 				<input type="submit" name="login" value="Login" />
 			</form>
 
